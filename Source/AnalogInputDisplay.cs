@@ -18,19 +18,16 @@ public class AnalogInputDisplay : Entity
         if (level == null) return;
         if (player == null) return;
 
-        float radius = 100;
-        float indicatorLen = 10;
-        float minDisplayThreshold = 0.1F;
-        float inputThickness = 2;
-        float actualDirectionThickness = 3;
+        AnalogInputDisplayModuleSettings settings = AnalogInputDisplayModule.Settings;
+        float radius = settings.Radius * 5f;
         Vector2 pos = level.WorldToScreen(player.Center);
 
         GamePadState gamepad = GamePad.GetState(0, GamePadDeadZone.None);
-        if (gamepad.ThumbSticks.Left.Length() > minDisplayThreshold)
+        if (gamepad.ThumbSticks.Left.Length() > settings.MinDisplayThreshold)
         {
             Vector2 thumbstick = new Vector2(gamepad.ThumbSticks.Left.X, -gamepad.ThumbSticks.Left.Y);
-            drawIndicator(pos, thumbstick, indicatorLen, radius, Color.Red, inputThickness);
-            drawIndicator(pos, Input.LastAim, indicatorLen, radius, Color.White, actualDirectionThickness);
+            drawIndicator(pos, thumbstick, settings.IndicatorLength, radius, Color.Red, settings.InputThickness);
+            drawIndicator(pos, Input.LastAim, settings.IndicatorLength, radius, Color.White, settings.ActualDirectionThickness);
         }
     }
 
