@@ -33,7 +33,8 @@ public class AnalogInputDisplay : Entity
 
     private static Vector2 translateVec(Vector2 initial, float angleRad, float distance)
     {
-        return new Vector2(initial.X + (distance * MathF.Cos(angleRad)), initial.Y + (distance * MathF.Sin(angleRad)));
+        Vector2 offset = distance * new Vector2(MathF.Cos(angleRad), MathF.Sin(angleRad));
+        return initial + offset;
     }
 
     private void drawIndicator(Vector2 origin, Vector2 direction, float length, float radius, Color color, float thickness = 1)

@@ -8,12 +8,6 @@ public class AnalogInputDisplayModule : EverestModule {
     public override Type SettingsType => typeof(AnalogInputDisplayModuleSettings);
     public static AnalogInputDisplayModuleSettings Settings => (AnalogInputDisplayModuleSettings) Instance._Settings;
 
-    public override Type SessionType => typeof(AnalogInputDisplayModuleSession);
-    public static AnalogInputDisplayModuleSession Session => (AnalogInputDisplayModuleSession) Instance._Session;
-
-    public override Type SaveDataType => typeof(AnalogInputDisplayModuleSaveData);
-    public static AnalogInputDisplayModuleSaveData SaveData => (AnalogInputDisplayModuleSaveData) Instance._SaveData;
-
     public AnalogInputDisplayModule() {
         Instance = this;
 #if DEBUG
