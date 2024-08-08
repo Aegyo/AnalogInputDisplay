@@ -26,10 +26,14 @@ public class AnalogInputDisplayModule : EverestModule {
     }
 
     public override void Load() {
-        // TODO: apply any hooks that should always be active
+        Everest.Events.Level.OnLoadLevel += modLoadLevel;
     }
 
     public override void Unload() {
-        // TODO: unapply any hooks applied in Load()
+        Everest.Events.Level.OnLoadLevel -= modLoadLevel;
+    }
+
+    private void modLoadLevel(Level level, Player.IntroTypes playerIntro, bool isFromLoader){
+        level.Add(new AnalogInputDisplay());
     }
 }
