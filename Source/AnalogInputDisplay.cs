@@ -13,12 +13,14 @@ public class AnalogInputDisplay : Entity
 
     public override void Render()
     {
+        AnalogInputDisplayModuleSettings settings = AnalogInputDisplayModule.Settings;
+        if (!settings.Enabled) return;
+
         Player player = Scene.Tracker.GetEntity<Player>();
         Level level = SceneAs<Level>();
         if (level == null) return;
         if (player == null) return;
 
-        AnalogInputDisplayModuleSettings settings = AnalogInputDisplayModule.Settings;
         float radius = settings.Radius * 5f;
         Vector2 pos = level.WorldToScreen(player.Center);
 
@@ -26,8 +28,8 @@ public class AnalogInputDisplay : Entity
         if (gamepad.ThumbSticks.Left.Length() > settings.MinDisplayThreshold)
         {
             Vector2 thumbstick = new Vector2(gamepad.ThumbSticks.Left.X, -gamepad.ThumbSticks.Left.Y);
-            drawIndicator(pos, thumbstick, settings.IndicatorLength, radius, Color.Red, settings.InputThickness);
-            drawIndicator(pos, Input.LastAim, settings.IndicatorLength, radius, Color.White, settings.ActualDirectionThickness);
+            drawIndicator(pos, thumbstick, radius, settings.InputIndicator);
+            drawIndicator(pos, Input.LastAim, radius, settings.DashIndicator);
         }
     }
 
@@ -37,10 +39,10 @@ public class AnalogInputDisplay : Entity
         return initial + offset;
     }
 
-    private void drawIndicator(Vector2 origin, Vector2 direction, float length, float radius, Color color, float thickness = 1)
+    private void drawIndicator(Vector2 origin, Vector2 direction, float radius, AnalogInputDisplayModuleSettings.Indicator indicator)
     {
-        Vector2 start = translateVec(origin, direction.Angle(), radius - length);
+        Vector2 start = translateVec(origin, direction.Angle(), radius - indicator.Length);
         Vector2 end = translateVec(origin, direction.Angle(), radius);
-        Draw.Line(start, end, color, thickness);
+        Draw.Line(start, end, indicator.GetXNAColor(), indicator.Thickness);
     }
 }
